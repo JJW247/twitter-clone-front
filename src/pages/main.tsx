@@ -3,6 +3,7 @@ import axios from 'axios';
 import useSWR from 'swr';
 import Cards from '../components/common/Cards';
 import Header from '../components/common/Header';
+import CreateTweet from '../components/main/CreateTweet';
 
 const Main: FC = () => {
   const fetcher = async (url: string) => {
@@ -22,6 +23,7 @@ const Main: FC = () => {
   return (
     <>
       <Header title={'Home'} />
+      <CreateTweet />
       <Cards tweets={data} />
     </>
   );

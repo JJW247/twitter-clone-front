@@ -1,19 +1,17 @@
 import React, { FC } from 'react';
-import { CardProps } from './Card';
+
+import { ITweet } from '../../interfaces';
+import Card from './Card';
 
 interface CardsProps {
-  tweets: CardProps[];
+  tweets: ITweet[];
 }
 
 const Cards: FC<CardsProps> = ({ tweets }) => {
   return (
     <ul>
-      {tweets.map((v) => {
-        return (
-          <li>
-            {v.user.nickname} - {v.tweet}
-          </li>
-        );
+      {tweets.map((tweet) => {
+        return <Card key={tweet.id} tweet={tweet} />;
       })}
     </ul>
   );

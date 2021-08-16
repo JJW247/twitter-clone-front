@@ -5,11 +5,7 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ title }) => {
-  return (
-    <h1 className="font-bold text-xl p-4 border-b-1 border-l-1 border-r-1">
-      {title}
-    </h1>
-  );
+  return <h1 className="font-bold text-xl p-4 border-b-1">{title}</h1>;
 };
 
 export default Header;
