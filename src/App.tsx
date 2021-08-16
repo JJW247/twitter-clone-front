@@ -1,12 +1,18 @@
 import React, { FC } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Layout from './components/common/Layout';
+
+import Main from './pages/main';
 
 const App: FC = () => {
   return (
-    <div className="bg-red-100 min-h-screen flex">
-      <div className="bg-blue-100 flex-auto">1</div>
-      <div className="bg-purple-300 max-w-screen-sm flex-auto">2</div>
-      <div className="bg-blue-100 flex-auto">3</div>
-    </div>
+    <Router>
+      <Layout>
+        <Switch>
+          <Route exact path="/" component={Main} />
+        </Switch>
+      </Layout>
+    </Router>
   );
 };
 
