@@ -1,17 +1,27 @@
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import React, { FC, FormEvent } from 'react';
+import React, { FC, FormEvent, useEffect, useState } from 'react';
 
 import { useInput } from '../../hooks';
 
 const Login: FC = () => {
+  const [passwordError, setPasswordError] = useState<string>('');
+
   const [loginEmail, onChangeLoginEmail] = useInput('');
   const [loginPassword, onChangeLoginPassword] = useInput('');
+  const [signupEmail, onChangeSignupEmail] = useInput('');
+  const [signupNickname, onChangeSignupNickname] = useInput('');
+  const [signupPassword, onChangeSignupPassword] = useInput('');
+  const [signupPasswordCheck, onChangeSignupPasswordCheck] = useInput('');
 
   const onSubmitLogin = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
+
+      if (!loginEmail || !loginPassword) {
+        return;
+      }
 
       const response = await axios.post(
         `${process.env.REACT_APP_BACK_URL}/users/login`,
@@ -26,6 +36,40 @@ const Login: FC = () => {
       console.error(error);
     }
   };
+
+  const onSubmitSignup = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+
+      if (passwordError || !signupEmail || !signupNickname || !signupPassword) {
+        return;
+      }
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACK_URL}/users`,
+        {
+          email: signupEmail,
+          nickname: signupNickname,
+          password: signupPassword,
+        },
+      );
+
+      if (response.statusText === 'Created') {
+        localStorage.setItem('token', response.data.token);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (signupPassword === signupPasswordCheck) {
+      setPasswordError('');
+    } else {
+      setPasswordError('패스워드가 일치하지 않습니다.');
+    }
+  }, [signupPassword, signupPasswordCheck]);
 
   return (
     <div className="min-h-screen flex">
@@ -42,20 +86,48 @@ const Login: FC = () => {
         <div className="font-black text-6xl mb-4">Happening now</div>
         <div className="mb-8">
           <div className="font-bold text-4xl mb-2">Sign up</div>
-          <form>
-            <input className="input mb-2 w-96" type="email" />
+          <form onSubmit={onSubmitSignup}>
+            <input
+              className="input mb-2 w-96"
+              maxLength={40}
+              placeholder="Email"
+              value={signupEmail}
+              onChange={onChangeSignupEmail}
+            />
             <br />
-            <input className="input mb-2 w-96" type="text" />
+            <input
+              className="input mb-2 w-96"
+              type="text"
+              maxLength={10}
+              placeholder="Nickname"
+              value={signupNickname}
+              onChange={onChangeSignupNickname}
+            />
             <br />
-            <input className="input mb-2 w-96" type="password" />
+            <input
+              className="input mb-2 w-96"
+              type="password"
+              placeholder="Password"
+              value={signupPassword}
+              onChange={onChangeSignupPassword}
+            />
             <br />
-            <input className="input mb-2 w-96" type="password" />
+            <input
+              className="input mb-2 w-96"
+              type="password"
+              placeholder="Password check"
+              value={signupPasswordCheck}
+              onChange={onChangeSignupPasswordCheck}
+            />
             <br />
             <input
               className="input w-96 bg-white"
               type="submit"
               value="Sign up"
             />
+            {passwordError && (
+              <div className="error-message">{passwordError}</div>
+            )}
           </form>
         </div>
         <div>

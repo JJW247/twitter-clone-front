@@ -35,3 +35,11 @@
 .text-20-rem {
   font-size: 20rem;
 }
+
+.error-message {
+  --tw-text-opacity: 1;
+  color: rgba(239, 68, 68, var(--tw-text-opacity));
+
+  line-height: 1rem;
+  font-size: 0.875rem;
+}

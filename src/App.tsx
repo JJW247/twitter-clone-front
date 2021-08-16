@@ -13,23 +13,17 @@ const App: FC = () => {
 
   useEffect(() => {
     const getAuth = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACK_URL}/auth`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACK_URL}/auth`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        );
+        },
+      );
 
-        console.log(response.data);
-
-        if (response.data.ok) {
-          setIsLogin(true);
-        }
-      } catch (error) {
-        console.error(error);
+      if (response.data.ok) {
+        setIsLogin(true);
       }
     };
 
