@@ -1,18 +1,24 @@
 import React, { FC } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
+
 import Cards from '../components/common/Cards';
 import Header from '../components/common/Header';
 import CreateTweet from '../components/main/CreateTweet';
+import { ITweet } from '../interfaces';
 
 const Main: FC = () => {
   const fetcher = async (url: string) => {
-    const response = await axios.get(url);
+    try {
+      const response = await axios.get(url);
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const { data, error, mutate } = useSWR(
+  const { data, error, mutate } = useSWR<ITweet[]>(
     `${process.env.REACT_APP_BACK_URL}/tweets`,
     fetcher,
   );
@@ -23,7 +29,7 @@ const Main: FC = () => {
   return (
     <>
       <Header title={'Home'} />
-      <CreateTweet />
+      <CreateTweet mutate={mutate} />
       <Cards tweets={data} />
     </>
   );

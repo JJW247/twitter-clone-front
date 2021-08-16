@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 
 const Layout: FC = ({ children }) => {
+  console.log(children);
+
   return (
     <div className="min-h-screen flex font-noto">
       <div className="flex-auto">1</div>

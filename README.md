@@ -3,5 +3,6 @@
 3. main page setting
 4. create tweet
 5. Card UI
-6. sign up
-7. login
+6. login
+7. signup
+8. logout

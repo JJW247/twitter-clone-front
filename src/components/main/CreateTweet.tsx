@@ -4,8 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ProfileIcon from '../common/ProfileIcon';
 import axios from 'axios';
+import { ITweet } from '../../interfaces';
+import { MutatorCallback } from 'swr/dist/types';
 
-const CreateTweet: FC = () => {
+interface CreateTweetProps {
+  mutate: (
+    data?: ITweet[] | Promise<ITweet[]> | MutatorCallback<ITweet[]> | undefined,
+    shouldRevalidate?: boolean | undefined,
+  ) => Promise<ITweet[] | undefined>;
+}
+
+const CreateTweet: FC<CreateTweetProps> = ({ mutate }) => {
   const token = localStorage.getItem('token');
 
   const [tweet, setTweet] = useState<string>('');
@@ -33,6 +42,7 @@ const CreateTweet: FC = () => {
 
     if (response.statusText === 'Created') {
       setTweet('');
+      mutate();
     }
   };
 
