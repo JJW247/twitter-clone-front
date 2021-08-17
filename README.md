@@ -5,4 +5,4 @@
 5. Card UI
 6. login
 7. signup
-8. logout
+8. infinite scroll

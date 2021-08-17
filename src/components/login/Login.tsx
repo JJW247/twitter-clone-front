@@ -88,7 +88,7 @@ const Login: FC = () => {
           <div className="font-bold text-4xl mb-2">Sign up</div>
           <form onSubmit={onSubmitSignup}>
             <input
-              className="input mb-2 w-96"
+              className="input mb-2 w-96 text-2xl"
               maxLength={40}
               placeholder="Email"
               value={signupEmail}
@@ -96,7 +96,7 @@ const Login: FC = () => {
             />
             <br />
             <input
-              className="input mb-2 w-96"
+              className="input mb-2 w-96 text-2xl"
               type="text"
               maxLength={10}
               placeholder="Nickname"
@@ -105,7 +105,7 @@ const Login: FC = () => {
             />
             <br />
             <input
-              className="input mb-2 w-96"
+              className="input mb-2 w-96 text-2xl"
               type="password"
               placeholder="Password"
               value={signupPassword}
@@ -113,7 +113,7 @@ const Login: FC = () => {
             />
             <br />
             <input
-              className="input mb-2 w-96"
+              className="input mb-2 w-96 text-2xl"
               type="password"
               placeholder="Password check"
               value={signupPasswordCheck}
@@ -121,7 +121,7 @@ const Login: FC = () => {
             />
             <br />
             <input
-              className="input w-96 bg-white"
+              className="input w-96 bg-white text-2xl"
               type="submit"
               value="Sign up"
             />
@@ -137,7 +137,7 @@ const Login: FC = () => {
           </div>
           <form onSubmit={onSubmitLogin}>
             <input
-              className="input mb-2 w-96"
+              className="input mb-2 w-96 text-2xl"
               type="email"
               maxLength={40}
               placeholder="Email"
@@ -146,7 +146,7 @@ const Login: FC = () => {
             />
             <br />
             <input
-              className="input mb-2 w-96 auto-password-prevent"
+              className="input mb-2 w-96 text-2xl"
               type="password"
               maxLength={40}
               placeholder="Password"
@@ -155,7 +155,7 @@ const Login: FC = () => {
             />
             <br />
             <input
-              className="input w-96 bg-white"
+              className="input w-96 bg-white text-2xl"
               type="submit"
               value="Log in"
             />

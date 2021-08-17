@@ -9,9 +9,13 @@ import { MutatorCallback } from 'swr/dist/types';
 
 interface CreateTweetProps {
   mutate: (
-    data?: ITweet[] | Promise<ITweet[]> | MutatorCallback<ITweet[]> | undefined,
+    data?:
+      | ITweet[][]
+      | Promise<ITweet[][]>
+      | MutatorCallback<ITweet[][]>
+      | undefined,
     shouldRevalidate?: boolean | undefined,
-  ) => Promise<ITweet[] | undefined>;
+  ) => Promise<ITweet[][] | undefined>;
 }
 
 const CreateTweet: FC<CreateTweetProps> = ({ mutate }) => {
