@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
 
 import { ITweet } from '../../interfaces';
 import ProfileIcon from './ProfileIcon';
