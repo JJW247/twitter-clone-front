@@ -32,6 +32,8 @@ const CreateTweet: FC<CreateTweetProps> = ({ mutate }) => {
   const onSubmitTweet = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!tweet) return;
+
     const response = await axios.post(
       `${process.env.REACT_APP_BACK_URL}/tweets`,
       {
