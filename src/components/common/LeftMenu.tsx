@@ -1,15 +1,20 @@
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBell as farBell,
+  faEnvelope as farEnvelope,
+  faUser as farUser,
+} from '@fortawesome/free-regular-svg-icons';
 import React, { FC } from 'react';
 
 import MenuButton from './MenuButton';
 
 const menuConfig = [
-  { id: 1, title: 'Home' },
-  { id: 2, title: 'Home' },
-  { id: 3, title: 'Home' },
-  { id: 4, title: 'Home' },
-  { id: 5, title: 'Home' },
+  { id: 1, title: 'Home', icon: faHome },
+  { id: 2, title: 'Notifications', icon: farBell },
+  { id: 3, title: 'Messages', icon: farEnvelope },
+  { id: 4, title: 'Profile', icon: farUser },
 ];
 
 const LeftMenu: FC = () => {
@@ -24,7 +29,7 @@ const LeftMenu: FC = () => {
         </div>
         <nav>
           {menuConfig.map((v) => {
-            return <MenuButton key={v.id} title={v.title} />;
+            return <MenuButton key={v.id} title={v.title} icon={v.icon} />;
           })}
         </nav>
         <button className="bg-green-500 hover:bg-green-600 text-white font-black text-lg px-24 py-4 rounded-full mt-8">

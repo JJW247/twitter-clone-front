@@ -12,11 +12,16 @@ const Header: FC<HeaderProps> = ({ title }) => {
   };
 
   return (
-    <h1 className="font-bold text-xl p-4 border-b-1">
+    <h1 className="font-bold text-xl p-4 border-b-1 flex justify-between">
       {title}{' '}
-      <button className="border-1 border-gray-500" onClick={onClickLogout}>
-        로그아웃 임시
-      </button>
+      <div>
+        <button
+          className="border-1 border-gray-200 text-gray-200 text-xs py-1 px-2 rounded-full hover:border-red-500 hover:text-red-500"
+          onClick={onClickLogout}
+        >
+          Log out
+        </button>
+      </div>
     </h1>
   );
 };
