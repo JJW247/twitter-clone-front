@@ -23,9 +23,10 @@ import { CreateTweetProps } from '../main/CreateTweet';
 
 export interface CardProps extends CreateTweetProps {
   tweet: ITweet;
+  ellipsisEl: React.MutableRefObject<HTMLDivElement | null>;
 }
 
-const Card: FC<CardProps> = ({ tweet, mutate }) => {
+const Card: FC<CardProps> = ({ tweet, mutate, ellipsisEl }) => {
   dayjs.extend(relativeTime);
 
   const token = localStorage.getItem('token') || '';
@@ -55,6 +56,15 @@ const Card: FC<CardProps> = ({ tweet, mutate }) => {
     }
   };
 
+  const ellipsisModalHandler = (e: any) => {
+    if (
+      ellipsisToggle &&
+      (!ellipsisEl.current || !ellipsisEl.current.contains(e.target))
+    ) {
+      setEllipsisToggle(false);
+    }
+  };
+
   useEffect(() => {
     const getMe = async () => {
       try {
@@ -77,6 +87,12 @@ const Card: FC<CardProps> = ({ tweet, mutate }) => {
 
     getMe();
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('click', ellipsisModalHandler);
+
+    return () => window.removeEventListener('click', ellipsisModalHandler);
+  }, [ellipsisToggle]);
 
   return (
     <li className="flex border-b-1">
@@ -111,7 +127,10 @@ const Card: FC<CardProps> = ({ tweet, mutate }) => {
               </button>
             </div>
             {ellipsisToggle && (
-              <div className="absolute bg-white shadow-md py-2 -ml-2 w-36">
+              <div
+                ref={ellipsisEl}
+                className="absolute bg-white shadow-md py-2 -ml-2 w-36"
+              >
                 {me === tweet.users.id && (
                   <button
                     className="px-2 py-1 hover:bg-gray-200 w-full"
