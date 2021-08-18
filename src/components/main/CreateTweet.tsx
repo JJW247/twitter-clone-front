@@ -7,7 +7,7 @@ import axios from 'axios';
 import { ITweet } from '../../interfaces';
 import { MutatorCallback } from 'swr/dist/types';
 
-interface CreateTweetProps {
+export interface CreateTweetProps {
   mutate: (
     data?:
       | ITweet[][]

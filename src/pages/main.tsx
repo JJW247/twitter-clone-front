@@ -56,7 +56,7 @@ const Main: FC = () => {
       <Header title={'Home'} />
       <CreateTweet mutate={mutate} />
       {data.map((tweets, i) => {
-        return <Cards key={i} tweets={tweets} />;
+        return <Cards key={i} tweets={tweets} mutate={mutate} />;
       })}
       <div ref={lastEl} className="text-white">
         twitter-clone
