@@ -2,7 +2,7 @@ import React, { createRef, FC, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useSWRInfinite } from 'swr';
 
-import Cards from '../components/common/Cards';
+import Cards from '../components/common/card/Cards';
 import Header from '../components/common/Header';
 import CreateTweet from '../components/main/CreateTweet';
 import { ITweet } from '../interfaces';

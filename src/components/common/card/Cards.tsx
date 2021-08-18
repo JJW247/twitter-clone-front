@@ -1,7 +1,7 @@
 import React, { createRef, FC, MutableRefObject, useRef } from 'react';
 
-import { ITweet } from '../../interfaces';
-import { CreateTweetProps } from '../main/CreateTweet';
+import { ITweet } from '../../../interfaces';
+import { CreateTweetProps } from '../../main/CreateTweet';
 import Card from './Card';
 
 interface CardsProps extends CreateTweetProps {
