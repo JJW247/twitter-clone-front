@@ -111,10 +111,7 @@ const Card: FC<CardProps> = ({ tweet, mutate }) => {
               </button>
             </div>
             {ellipsisToggle && (
-              <div
-                className="absolute bg-white shadow-md py-2 -ml-2 w-36"
-                ref={ellipsisEl}
-              >
+              <div className="absolute bg-white shadow-md py-2 -ml-2 w-36">
                 {me === tweet.users.id && (
                   <button
                     className="px-2 py-1 hover:bg-gray-200 w-full"

@@ -6,3 +6,24 @@
 6. login
 7. signup
 8. infinite scroll
+
+---
+
+const ellipsisEl = useRef<HTMLDivElement>(null);
+const ellipsisModalHandler = (e: any) => {
+if (
+ellipsisToggle &&
+(!ellipsisEl.current || !ellipsisEl.current.contains(e.target))
+) {
+setEllipsisToggle(false);
+}
+};
+useEffect(() => {
+window.addEventListener('click', ellipsisModalHandler);
+console.log(ellipsisEl);
+
+    return window.removeEventListener('click', ellipsisModalHandler);
+
+}, [ellipsisToggle]);
+
+---
