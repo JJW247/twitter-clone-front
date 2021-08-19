@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, MutableRefObject, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEllipsisH,
@@ -10,9 +10,13 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
 
-import { CardProps } from './Card';
+import { ITweet } from '../../../interfaces';
+import { CreateTweetProps } from '../../main/CreateTweet';
 
-type EllipsisProps = CardProps;
+export interface EllipsisProps extends CreateTweetProps {
+  tweet: ITweet;
+  ellipsisEl: MutableRefObject<HTMLDivElement | null>;
+}
 
 const Ellipsis: FC<EllipsisProps> = ({ tweet, mutate, ellipsisEl }) => {
   const token = localStorage.getItem('token') || '';

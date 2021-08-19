@@ -10,8 +10,13 @@ interface CardsProps extends CreateTweetProps {
 
 const Cards: FC<CardsProps> = ({ tweets, mutate }) => {
   const ellipsisElRefs = useRef<MutableRefObject<HTMLDivElement | null>[]>([]);
+  const commentsElRefs = useRef<MutableRefObject<HTMLDivElement | null>[]>([]);
+
   ellipsisElRefs.current = tweets.map(
     (_, i) => ellipsisElRefs.current[i] ?? createRef(),
+  );
+  commentsElRefs.current = tweets.map(
+    (_, i) => commentsElRefs.current[i] ?? createRef(),
   );
 
   return (
@@ -23,6 +28,7 @@ const Cards: FC<CardsProps> = ({ tweets, mutate }) => {
             tweet={tweet}
             mutate={mutate}
             ellipsisEl={ellipsisElRefs.current[i]}
+            commentsEl={commentsElRefs.current[i]}
           />
         );
       })}

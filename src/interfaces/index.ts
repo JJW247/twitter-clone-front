@@ -7,3 +7,13 @@ export interface ITweet {
     nickname: string;
   };
 }
+
+export interface IComment {
+  id: number;
+  createdAt: Date;
+  comment: string;
+  users: {
+    id: number;
+    nickname: string;
+  };
+}

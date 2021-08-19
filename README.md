@@ -6,3 +6,5 @@
 6. login
 7. signup
 8. infinite scroll
+9. like
+10. comments

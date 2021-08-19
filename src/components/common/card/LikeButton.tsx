@@ -19,17 +19,21 @@ const LikeButton: FC<LikeButtonProps> = ({ tweet, countMutate }) => {
   const token = localStorage.getItem('token') || null;
 
   const fetcher = async (url: string) => {
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const { data, error, mutate } = useSWR(
-    `${process.env.REACT_APP_BACK_URL}/likes/tweets/islike/${tweet.id}`,
+    `${process.env.REACT_APP_BACK_URL}/likes/islike/tweets/${tweet.id}`,
     fetcher,
   );
 

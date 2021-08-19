@@ -11,13 +11,17 @@ interface LikeProps {
 
 const Like: FC<LikeProps> = ({ tweet }) => {
   const fetcher = async (url: string) => {
-    const response = await axios.get(url);
+    try {
+      const response = await axios.get(url);
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const { data, error, mutate } = useSWR(
-    `${process.env.REACT_APP_BACK_URL}/likes/tweets/${tweet.id}`,
+    `${process.env.REACT_APP_BACK_URL}/likes/count/tweets/${tweet.id}`,
     fetcher,
   );
 

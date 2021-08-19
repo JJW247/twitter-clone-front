@@ -9,12 +9,12 @@ import Main from './pages/main';
 const App: FC = () => {
   const token = localStorage.getItem('token') || '';
 
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [me, setMe] = useState<number | null>(null);
 
   useEffect(() => {
-    const getAuth = async () => {
+    const getMe = async () => {
       const response = await axios.get(
-        `${process.env.REACT_APP_BACK_URL}/auth`,
+        `${process.env.REACT_APP_BACK_URL}/users/me`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -22,15 +22,15 @@ const App: FC = () => {
         },
       );
 
-      if (response.data.ok) {
-        setIsLogin(true);
+      if (response.statusText === 'OK') {
+        setMe(response.data.userId);
       }
     };
 
-    getAuth();
+    getMe();
   }, [token]);
 
-  if (!isLogin) return <Login />;
+  if (!me) return <Login />;
 
   return (
     <Router>
