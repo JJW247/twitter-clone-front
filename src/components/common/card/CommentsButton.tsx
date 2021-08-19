@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, FC, SetStateAction } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment as farComment } from '@fortawesome/free-regular-svg-icons';
 
