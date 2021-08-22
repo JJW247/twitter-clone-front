@@ -17,3 +17,13 @@ export interface IComment {
     nickname: string;
   };
 }
+
+export interface IFollow {
+  id: number;
+  follower: {
+    id: number;
+  };
+  following: {
+    id: number;
+  };
+}

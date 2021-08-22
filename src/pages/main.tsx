@@ -53,7 +53,7 @@ const Main: FC = () => {
 
   return (
     <>
-      <Header title={'Home'} />
+      <Header title="Home" />
       <CreateTweet mutate={mutate} />
       {data.map((tweets, i) => {
         return <Cards key={i} tweets={tweets} mutate={mutate} />;

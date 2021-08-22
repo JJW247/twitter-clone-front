@@ -8,3 +8,5 @@
 8. infinite scroll
 9. like
 10. comments
+
+- view profile

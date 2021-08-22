@@ -11,6 +11,7 @@ const FollowList: FC<FollowListProps> = ({ title }) => {
       <div className="font-bold text-xl mb-8 pl-4">{title}</div>
       <Follow />
       <Follow />
+      <Follow />
     </div>
   );
 };

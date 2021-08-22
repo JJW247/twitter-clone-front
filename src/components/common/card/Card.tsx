@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRetweet } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import useSWR from 'swr';
+import { Link } from 'react-router-dom';
 
 import ProfileIcon from '../ProfileIcon';
 import { IComment } from '../../../interfaces';
@@ -71,16 +72,16 @@ const Card: FC<CardProps> = ({ tweet, mutate, ellipsisEl, commentsEl }) => {
 
   return (
     <li className="flex border-b-1">
-      <div className="mt-4 mx-4">
+      <Link className="mt-4 mx-4" to={`/profile/${tweet.users.id}`}>
         <ProfileIcon />
-      </div>
+      </Link>
       <div className="mt-6 text-sm w-full mr-4">
-        <div>
+        <Link to={`/profile/${tweet.users.id}`}>
           <span className="font-bold">{tweet.users.nickname}</span>
           <span className="ml-2 text-gray-500">
             {dayjs(tweet.createdAt).locale('ko').fromNow()}
           </span>
-        </div>
+        </Link>
         <div className="font">{tweet.tweet}</div>
         <div className="flex justify-between my-4">
           <CommentsButton
