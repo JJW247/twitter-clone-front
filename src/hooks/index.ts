@@ -14,33 +14,6 @@ export const useInput = (initialValue: any) => {
   return [value, onChange];
 };
 
-export const useGetMe = () => {
-  const token = localStorage.getItem('token') || '';
-
-  const [me, setMe] = useState<number | null>(null);
-
-  useEffect(() => {
-    const getMe = async () => {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACK_URL}/users/me`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      if (response.statusText === 'OK') {
-        setMe(response.data.userId);
-      }
-    };
-
-    getMe();
-  }, [token]);
-
-  return { me };
-};
-
 interface ISetSize {
   data: ITweet[][] | undefined;
   size: number;

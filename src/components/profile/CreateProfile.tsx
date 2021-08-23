@@ -1,8 +1,15 @@
 import axios from 'axios';
-import React, { Dispatch, FC, FormEvent, SetStateAction } from 'react';
+import React, {
+  Dispatch,
+  FC,
+  FormEvent,
+  SetStateAction,
+  useContext,
+} from 'react';
 import { MutatorCallback } from 'swr/dist/types';
+import { MeContext } from '../../contexts';
 
-import { useGetMe, useInput } from '../../hooks';
+import { useInput } from '../../hooks';
 import { IProfile } from '../../interfaces';
 
 interface CreateProfileProps {
@@ -20,7 +27,7 @@ const CreateProfile: FC<CreateProfileProps> = ({
 }) => {
   const token = localStorage.getItem('token');
 
-  const { me } = useGetMe();
+  const { me } = useContext(MeContext);
 
   const [introduce, onChangeIntroduce] = useInput('');
 

@@ -1,11 +1,11 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 
-import { useGetMe } from '../../hooks';
 import ProfileIcon from '../common/ProfileIcon';
 import { IFollow, IProfile } from '../../interfaces';
 import CreateProfile from './CreateProfile';
+import { MeContext } from '../../contexts';
 
 interface UserInfoProps {
   userId: string;
@@ -14,7 +14,7 @@ interface UserInfoProps {
 const UserInfo: FC<UserInfoProps> = ({ userId }) => {
   const token = localStorage.getItem('token');
 
-  const { me } = useGetMe();
+  const { me } = useContext(MeContext);
 
   const [follow, setFollow] = useState<'Follow' | 'Unfollow'>('Follow');
   const [introduceToggle, setIntroduceToggle] = useState<boolean>(false);
