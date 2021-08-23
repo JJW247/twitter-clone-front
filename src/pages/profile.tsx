@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+
 import Header from '../components/common/Header';
 import UserInfo from '../components/profile/UserInfo';
 

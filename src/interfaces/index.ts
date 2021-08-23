@@ -27,3 +27,12 @@ export interface IFollow {
     id: number;
   };
 }
+
+export interface IProfile {
+  id: number;
+  nickname: string;
+  introduce: string;
+  followers: { id: number }[];
+  followings: { id: number }[];
+  tweets: { id: number }[];
+}

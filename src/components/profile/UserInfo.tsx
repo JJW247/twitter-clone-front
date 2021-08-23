@@ -5,7 +5,8 @@ import useSWR from 'swr';
 
 import { useGetMe } from '../../hooks';
 import ProfileIcon from '../common/ProfileIcon';
-import { IFollow } from '../../interfaces';
+import { IFollow, IProfile } from '../../interfaces';
+import CreateProfile from './CreateProfile';
 
 const UserInfo: FC = () => {
   const token = localStorage.getItem('token');
@@ -15,6 +16,7 @@ const UserInfo: FC = () => {
   const { userId } = useParams<{ userId: string }>();
 
   const [follow, setFollow] = useState<'Follow' | 'Unfollow'>('Follow');
+  const [introduceToggle, setIntroduceToggle] = useState<boolean>(false);
 
   const onClickFollow = async () => {
     try {
@@ -38,6 +40,10 @@ const UserInfo: FC = () => {
     }
   };
 
+  const onClickFix = () => {
+    setIntroduceToggle(true);
+  };
+
   const fetcher = async (url: string) => {
     try {
       const response = await axios.get(url, {
@@ -57,16 +63,32 @@ const UserInfo: FC = () => {
     fetcher,
   );
 
+  const profileFetcher = async (url: string) => {
+    try {
+      const response = await axios.get(url);
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const { data: profileData, mutate: profileMutate } = useSWR<IProfile>(
+    `${process.env.REACT_APP_BACK_URL}/users/profile/${userId}`,
+    profileFetcher,
+  );
+
   useEffect(() => {
     const isFollow = data?.filter((follow) => {
       return follow.following.id === +userId;
     });
 
     if (isFollow?.length !== 0) {
-      console.log(isFollow);
       setFollow('Unfollow');
+      profileMutate();
     } else {
       setFollow('Follow');
+      profileMutate();
     }
   }, [data]);
 
@@ -75,20 +97,22 @@ const UserInfo: FC = () => {
       <div className="flex">
         <div className="mt-2 mx-4">
           <ProfileIcon />
-          <div className="font-bold text-lg text-center mt-2">h662</div>
+          <div className="font-bold text-lg text-center mt-2">
+            {profileData?.nickname}
+          </div>
         </div>
         <div className="flex mt-2 w-full justify-around text-center">
           <div>
             <div>Followers</div>
-            <div>123</div>
+            <div>{profileData?.followers?.length}</div>
           </div>
           <div>
             <div>Followings</div>
-            <div>123</div>
+            <div>{profileData?.followings?.length}</div>
           </div>
           <div>
             <div>Tweets</div>
-            <div>123</div>
+            <div>{profileData?.tweets?.length}</div>
           </div>
           <div>
             {me !== +userId && (
@@ -104,7 +128,26 @@ const UserInfo: FC = () => {
           </div>
         </div>
       </div>
-      <div className="mx-4 mb-4">introduce</div>
+      {introduceToggle ? (
+        <CreateProfile
+          profileMutate={profileMutate}
+          setIntroduceToggle={setIntroduceToggle}
+        />
+      ) : profileData?.introduce ? (
+        <div className="mx-4 mb-4">{profileData.introduce}</div>
+      ) : me === +userId ? (
+        <CreateProfile profileMutate={profileMutate} />
+      ) : (
+        <div className="mx-4 mb-4">Let's go twitter-clone coding!!!</div>
+      )}
+      {!introduceToggle && me === +userId && (
+        <button
+          className="rounded-full px-2 py-1 font-black text-white text-xs  bg-black ml-4 mb-2"
+          onClick={onClickFix}
+        >
+          Fix
+        </button>
+      )}
     </div>
   );
 };

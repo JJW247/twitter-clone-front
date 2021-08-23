@@ -9,4 +9,5 @@
 9. like
 10. comments
 
-- view profile
+- view profile - get profile (followers, followings, tweets, nickname, introduce)
+- fix ui, get my tweets
