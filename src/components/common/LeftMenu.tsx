@@ -13,7 +13,7 @@ import MenuButton from './MenuButton';
 const menuConfig = [
   { id: 1, title: 'Home', icon: faHome, link: '/' },
   { id: 2, title: 'Notifications', icon: farBell, link: '/notifications' },
-  { id: 3, title: 'Messages', icon: farEnvelope, link: 'messages' },
+  { id: 3, title: 'Messages', icon: farEnvelope, link: '/messages' },
   { id: 4, title: 'Profile', icon: farUser, link: '/profile' },
 ];
 

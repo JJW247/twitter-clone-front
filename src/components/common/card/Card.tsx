@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  MutableRefObject,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { FC, MutableRefObject, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
@@ -21,15 +15,12 @@ import Like from './Like';
 import CommentsButton from './CommentsButton';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
-import { MeContext } from '../../../contexts';
 
 export interface CardProps extends EllipsisProps {
   commentsEl: MutableRefObject<HTMLDivElement | null>;
 }
 
 const Card: FC<CardProps> = ({ tweet, mutate, ellipsisEl, commentsEl }) => {
-  const { me } = useContext(MeContext);
-
   dayjs.extend(relativeTime);
 
   const [commentsToggle, setCommentsToggle] = useState<boolean>(false);

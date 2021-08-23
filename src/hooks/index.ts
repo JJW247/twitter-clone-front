@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { ChangeEvent, createRef, useEffect, useRef, useState } from 'react';
 import { ITweet } from '../interfaces';
 

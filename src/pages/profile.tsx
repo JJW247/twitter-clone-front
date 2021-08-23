@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useSWRInfinite } from 'swr';
 import { useParams } from 'react-router-dom';
 import Cards from '../components/common/card/Cards';
