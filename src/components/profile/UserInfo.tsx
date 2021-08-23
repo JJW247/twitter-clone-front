@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import useSWR from 'swr';
 
@@ -8,12 +7,14 @@ import ProfileIcon from '../common/ProfileIcon';
 import { IFollow, IProfile } from '../../interfaces';
 import CreateProfile from './CreateProfile';
 
-const UserInfo: FC = () => {
+interface UserInfoProps {
+  userId: string;
+}
+
+const UserInfo: FC<UserInfoProps> = ({ userId }) => {
   const token = localStorage.getItem('token');
 
   const { me } = useGetMe();
-
-  const { userId } = useParams<{ userId: string }>();
 
   const [follow, setFollow] = useState<'Follow' | 'Unfollow'>('Follow');
   const [introduceToggle, setIntroduceToggle] = useState<boolean>(false);
@@ -134,19 +135,21 @@ const UserInfo: FC = () => {
           setIntroduceToggle={setIntroduceToggle}
         />
       ) : profileData?.introduce ? (
-        <div className="mx-4 mb-4">{profileData.introduce}</div>
+        <div className="mx-4 mb-4">
+          {profileData.introduce}
+          {me === +userId && (
+            <button
+              className="rounded-full px-2 py-1 font-black text-white text-xs  bg-black ml-4 mb-2"
+              onClick={onClickFix}
+            >
+              Fix
+            </button>
+          )}
+        </div>
       ) : me === +userId ? (
         <CreateProfile profileMutate={profileMutate} />
       ) : (
         <div className="mx-4 mb-4">Let's go twitter-clone coding!!!</div>
-      )}
-      {!introduceToggle && me === +userId && (
-        <button
-          className="rounded-full px-2 py-1 font-black text-white text-xs  bg-black ml-4 mb-2"
-          onClick={onClickFix}
-        >
-          Fix
-        </button>
       )}
     </div>
   );

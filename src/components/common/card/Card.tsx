@@ -82,7 +82,7 @@ const Card: FC<CardProps> = ({ tweet, mutate, ellipsisEl, commentsEl }) => {
             {dayjs(tweet.createdAt).locale('ko').fromNow()}
           </span>
         </Link>
-        <div className="font">{tweet.tweet}</div>
+        <div>{tweet.tweet}</div>
         <div className="flex justify-between my-4">
           <CommentsButton
             commentsToggle={commentsToggle}

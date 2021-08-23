@@ -1,4 +1,4 @@
-import React, { createRef, FC, useEffect, useRef } from 'react';
+import React, { FC } from 'react';
 import axios from 'axios';
 import { useSWRInfinite } from 'swr';
 
@@ -6,6 +6,7 @@ import Cards from '../components/common/card/Cards';
 import Header from '../components/common/Header';
 import CreateTweet from '../components/main/CreateTweet';
 import { ITweet } from '../interfaces';
+import { useInfiniteScroll } from '../hooks';
 
 const getKey = (pageIndex: number, previousPageData: any) => {
   if (previousPageData && !previousPageData.length) return null;
@@ -13,10 +14,6 @@ const getKey = (pageIndex: number, previousPageData: any) => {
 };
 
 const Main: FC = () => {
-  const observer = useRef<IntersectionObserver>();
-  const lastEl = createRef<HTMLDivElement>();
-  const sizeRef = useRef<number>(1);
-
   const fetcher = async (url: string) => {
     try {
       const response = await axios.get(url);
@@ -32,21 +29,7 @@ const Main: FC = () => {
     fetcher,
   );
 
-  useEffect(() => {
-    if (data && !data[size - 1]) {
-      return;
-    }
-
-    if (!observer.current && lastEl.current) {
-      observer.current = new IntersectionObserver(async (entries) => {
-        if (!entries[0].isIntersecting) return;
-        sizeRef.current += 1;
-        await setSize(sizeRef.current);
-      });
-
-      observer.current.observe(lastEl.current);
-    }
-  }, [lastEl]);
+  const { lastEl } = useInfiniteScroll({ data, size, setSize });
 
   if (!data) return <div>loading...</div>;
   if (error) return <div>error</div>;
