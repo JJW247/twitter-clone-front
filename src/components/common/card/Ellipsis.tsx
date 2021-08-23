@@ -1,4 +1,10 @@
-import React, { FC, MutableRefObject, useEffect, useState } from 'react';
+import React, {
+  FC,
+  MutableRefObject,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEllipsisH,
@@ -12,6 +18,7 @@ import axios from 'axios';
 
 import { ITweet } from '../../../interfaces';
 import { CreateTweetProps } from '../../main/CreateTweet';
+import { MeContext } from '../../../contexts';
 
 export interface EllipsisProps extends CreateTweetProps {
   tweet: ITweet;
@@ -21,8 +28,9 @@ export interface EllipsisProps extends CreateTweetProps {
 const Ellipsis: FC<EllipsisProps> = ({ tweet, mutate, ellipsisEl }) => {
   const token = localStorage.getItem('token') || '';
 
+  const { me } = useContext(MeContext);
+
   const [ellipsisToggle, setEllipsisToggle] = useState<boolean>(false);
-  const [me, setMe] = useState<number | null>(null);
 
   const onClickEllipsis = () => {
     setEllipsisToggle(!ellipsisToggle);
@@ -54,29 +62,6 @@ const Ellipsis: FC<EllipsisProps> = ({ tweet, mutate, ellipsisEl }) => {
       setEllipsisToggle(false);
     }
   };
-
-  useEffect(() => {
-    const getMe = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACK_URL}/users/me`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        if (response.statusText === 'OK') {
-          setMe(response.data.userId);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getMe();
-  }, []);
 
   useEffect(() => {
     window.addEventListener('click', ellipsisModalHandler);
