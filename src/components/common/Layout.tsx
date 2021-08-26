@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 
-import RightMenu from './RightMenu';
+import RightMenu from './right/RightMenu';
 import LeftMenu from './LeftMenu';
 
 import Login from '../login/Login';

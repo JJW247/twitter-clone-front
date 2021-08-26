@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
-import FollowList from './FollowList';
+import FollowerList from './FollowerList';
+import FollowingList from './FollowingList';
 import Search from './Search';
 
 const RightMenu: FC = () => {
@@ -11,10 +12,10 @@ const RightMenu: FC = () => {
           <Search />
         </div>
         <div className="mb-8">
-          <FollowList title="Follower list" />
+          <FollowerList />
         </div>
         <div>
-          <FollowList title="Following list" />
+          <FollowingList />
         </div>
       </div>
     </div>

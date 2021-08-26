@@ -20,12 +20,24 @@ export interface IComment {
 
 export interface IFollow {
   id: number;
-  follower: {
-    id: number;
-  };
-  following: {
-    id: number;
-  };
+  nickname: string;
+  introduce?: string;
+}
+
+export interface IFollowList {
+  id: number;
+  follower: IFollow;
+  following: IFollow;
+}
+
+export interface IFollowing {
+  id: number;
+  follower: IFollow;
+}
+
+export interface IFollower {
+  id: number;
+  following: IFollow;
 }
 
 export interface IProfile {

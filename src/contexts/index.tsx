@@ -14,7 +14,7 @@ const MeProvider = ({ children }: MeProviderProps): JSX.Element => {
 
   useEffect(() => {
     const getMe = async () => {
-      const token = localStorage.getItem('token') || '';
+      const token = localStorage.getItem('token');
 
       const response = await axios.get(
         `${process.env.REACT_APP_BACK_URL}/users/me`,

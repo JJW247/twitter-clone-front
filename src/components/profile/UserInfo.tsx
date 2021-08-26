@@ -3,9 +3,10 @@ import axios from 'axios';
 import useSWR from 'swr';
 
 import ProfileIcon from '../common/ProfileIcon';
-import { IFollow, IProfile } from '../../interfaces';
+import { IFollowList, IProfile } from '../../interfaces';
 import CreateProfile from './CreateProfile';
 import { MeContext } from '../../contexts';
+import { useFollower } from '../../hooks/useFollow';
 
 interface UserInfoProps {
   userId: string;
@@ -19,6 +20,8 @@ const UserInfo: FC<UserInfoProps> = ({ userId }) => {
   const [follow, setFollow] = useState<'Follow' | 'Unfollow'>('Follow');
   const [introduceToggle, setIntroduceToggle] = useState<boolean>(false);
 
+  const { mutate: followerMutate } = useFollower();
+
   const onClickFollow = async () => {
     try {
       const response = await axios.post(
@@ -31,10 +34,9 @@ const UserInfo: FC<UserInfoProps> = ({ userId }) => {
         },
       );
 
-      console.log(response);
-
       if (response.statusText === 'Created') {
         mutate();
+        followerMutate();
       }
     } catch (error) {
       console.error(error);
@@ -59,8 +61,8 @@ const UserInfo: FC<UserInfoProps> = ({ userId }) => {
     }
   };
 
-  const { data, mutate } = useSWR<IFollow[]>(
-    `${process.env.REACT_APP_BACK_URL}/users/follower`,
+  const { data, mutate } = useSWR<IFollowList[]>(
+    `${process.env.REACT_APP_BACK_URL}/users/follow`,
     fetcher,
   );
 
