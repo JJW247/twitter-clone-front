@@ -7,7 +7,7 @@ import React, {
   useContext,
 } from 'react';
 import { MutatorCallback } from 'swr/dist/types';
-import { MeContext } from '../../contexts';
+import { MeContext } from '../../contexts/meContext';
 
 import { useInput } from '../../hooks';
 import { IProfile } from '../../interfaces';

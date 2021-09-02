@@ -73,7 +73,7 @@ const Card: FC<CardProps> = ({ tweet, mutate, ellipsisEl, commentsEl }) => {
   return (
     <li className="flex border-b-1">
       <Link className="mt-4 mx-4" to={`/profile/${tweet.users.id}`}>
-        <ProfileIcon />
+        <ProfileIcon userId={tweet.users.id} />
       </Link>
       <div className="mt-6 text-sm w-full mr-4">
         <Link to={`/profile/${tweet.users.id}`}>

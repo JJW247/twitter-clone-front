@@ -57,11 +57,10 @@ const LikeButton: FC<LikeButtonProps> = ({ tweet, countMutate }) => {
   if (error) return <span>error</span>;
 
   return (
-    <button>
+    <button onClick={onClickLike}>
       <FontAwesomeIcon
         className={`text-base ${data?.like && 'text-green-500'}`}
         icon={data?.like ? faHeart : farHeart}
-        onClick={onClickLike}
       />
     </button>
   );

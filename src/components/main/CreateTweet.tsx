@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useContext, useState } from 'react';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -6,6 +6,7 @@ import ProfileIcon from '../common/ProfileIcon';
 import axios from 'axios';
 import { ITweet } from '../../interfaces';
 import { MutatorCallback } from 'swr/dist/types';
+import { MeContext } from '../../contexts/meContext';
 
 export interface CreateTweetProps {
   mutate: (
@@ -22,6 +23,8 @@ const CreateTweet: FC<CreateTweetProps> = ({ mutate }) => {
   const token = localStorage.getItem('token');
 
   const [tweet, setTweet] = useState<string>('');
+
+  const { me } = useContext(MeContext);
 
   const onChangeTweet = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -55,7 +58,7 @@ const CreateTweet: FC<CreateTweetProps> = ({ mutate }) => {
   return (
     <div className="border-b-1 flex">
       <div className="mt-2 mx-4">
-        <ProfileIcon />
+        <ProfileIcon userId={me} />
       </div>
       <form className="w-full" onSubmit={onSubmitTweet}>
         <input

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
 
-const MeContext = createContext<{ me: number | null }>({
-  me: null,
+const MeContext = createContext<{ me: number }>({
+  me: 0,
 });
 
 interface MeProviderProps {
@@ -10,7 +10,7 @@ interface MeProviderProps {
 }
 
 const MeProvider = ({ children }: MeProviderProps): JSX.Element => {
-  const [me, setMe] = useState<number | null>(null);
+  const [me, setMe] = useState<number>(0);
 
   useEffect(() => {
     const getMe = async () => {

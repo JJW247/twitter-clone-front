@@ -2,12 +2,11 @@ import axios from 'axios';
 import React, { FC } from 'react';
 import { useSWRInfinite } from 'swr';
 import { useParams } from 'react-router-dom';
-import Cards from '../components/common/card/Cards';
+import Cards from '../../components/common/card/Cards';
 
-import Header from '../components/common/Header';
-import UserInfo from '../components/profile/UserInfo';
-import { useInfiniteScroll } from '../hooks';
-import { ITweet } from '../interfaces';
+import { useInfiniteScroll } from '../../hooks';
+import { ITweet } from '../../interfaces';
+import ProfileContainer from '../../components/profile/ProfileContainer';
 
 const getKey =
   (userId: string) => (pageIndex: number, previousPageData: any) => {
@@ -39,16 +38,14 @@ const Profile: FC = () => {
   if (error) return <div>error</div>;
 
   return (
-    <>
-      <Header title="Profile" />
-      <UserInfo userId={userId} />
+    <ProfileContainer userId={userId}>
       {data.map((tweets, i) => {
         return <Cards key={i} tweets={tweets} mutate={mutate} />;
       })}
       <div ref={lastEl} className="text-white">
         twitter-clone
       </div>
-    </>
+    </ProfileContainer>
   );
 };
 

@@ -1,18 +1,22 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
+import { Link } from 'react-router-dom';
 
 import ProfileIcon from '../common/ProfileIcon';
 import { IFollowList, IProfile } from '../../interfaces';
 import CreateProfile from './CreateProfile';
-import { MeContext } from '../../contexts';
+import { MeContext } from '../../contexts/meContext';
 import { useFollower } from '../../hooks/useFollow';
+import { toastError, toastSuccess } from '../../utils';
+import { useGetProfileImage } from '../../hooks/useGetProfileImage';
 
 interface UserInfoProps {
   userId: string;
+  followingMutate?: any;
 }
 
-const UserInfo: FC<UserInfoProps> = ({ userId }) => {
+const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
   const token = localStorage.getItem('token');
 
   const { me } = useContext(MeContext);
@@ -21,6 +25,8 @@ const UserInfo: FC<UserInfoProps> = ({ userId }) => {
   const [introduceToggle, setIntroduceToggle] = useState<boolean>(false);
 
   const { mutate: followerMutate } = useFollower();
+
+  const { mutate: profileImageMutate } = useGetProfileImage(+userId);
 
   const onClickFollow = async () => {
     try {
@@ -37,6 +43,7 @@ const UserInfo: FC<UserInfoProps> = ({ userId }) => {
       if (response.statusText === 'Created') {
         mutate();
         followerMutate();
+        if (followingMutate) followingMutate();
       }
     } catch (error) {
       console.error(error);
@@ -45,6 +52,36 @@ const UserInfo: FC<UserInfoProps> = ({ userId }) => {
 
   const onClickFix = () => {
     setIntroduceToggle(true);
+  };
+
+  const onChangeProfileUpload = async (e: any) => {
+    try {
+      const imageFile = e.target.files[0];
+      const formData = new FormData();
+
+      if (!imageFile) return;
+
+      formData.append('image', imageFile);
+
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACK_URL}/users/profile/image`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.statusText === 'OK') {
+        profileImageMutate();
+        toastSuccess('Image upload success!');
+      }
+    } catch (error) {
+      console.error(error);
+
+      toastError(error);
+    }
   };
 
   const fetcher = async (url: string) => {
@@ -99,24 +136,42 @@ const UserInfo: FC<UserInfoProps> = ({ userId }) => {
     <div className="border-b-1">
       <div className="flex">
         <div className="mt-2 mx-4">
-          <ProfileIcon />
+          <div>
+            <ProfileIcon userId={+userId} />
+            {me === profileData?.id && (
+              <div className="relative rounded-full px-2 py-1 font-black text-white text-xs bg-black mx-2 mt-1 text-center">
+                <input
+                  className="w-full absolute opacity-0"
+                  type="file"
+                  onChange={onChangeProfileUpload}
+                />
+                <span>Fix</span>
+              </div>
+            )}
+          </div>
           <div className="font-bold text-lg text-center mt-2">
             {profileData?.nickname}
           </div>
         </div>
         <div className="flex mt-2 w-full justify-around text-center">
-          <div>
+          <Link
+            className="hover:text-green-500"
+            to={`/profile/${userId}/followers`}
+          >
             <div>Followers</div>
             <div>{profileData?.followers?.length}</div>
-          </div>
-          <div>
+          </Link>
+          <Link
+            className="hover:text-green-500"
+            to={`/profile/${userId}/followings`}
+          >
             <div>Followings</div>
             <div>{profileData?.followings?.length}</div>
-          </div>
-          <div>
+          </Link>
+          <Link className="hover:text-green-500" to={`/profile/${userId}`}>
             <div>Tweets</div>
             <div>{profileData?.tweets?.length}</div>
-          </div>
+          </Link>
           <div>
             {me !== +userId && (
               <button

@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FC, useContext } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Link } from 'react-router-dom';
-import { MeContext } from '../../contexts';
+import { MeContext } from '../../contexts/meContext';
 
 interface MenuButtonProps {
   title: string;
@@ -11,7 +11,7 @@ interface MenuButtonProps {
 }
 
 const MenuButton: FC<MenuButtonProps> = ({ title, icon, link }) => {
-  const { me }: { me: number | null } = useContext(MeContext);
+  const { me } = useContext(MeContext);
 
   return (
     <Link

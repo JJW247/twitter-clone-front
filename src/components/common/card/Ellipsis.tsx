@@ -18,7 +18,7 @@ import axios from 'axios';
 
 import { ITweet } from '../../../interfaces';
 import { CreateTweetProps } from '../../main/CreateTweet';
-import { MeContext } from '../../../contexts';
+import { MeContext } from '../../../contexts/meContext';
 
 export interface EllipsisProps extends CreateTweetProps {
   tweet: ITweet;

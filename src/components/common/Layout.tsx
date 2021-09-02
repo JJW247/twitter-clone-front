@@ -4,7 +4,7 @@ import RightMenu from './right/RightMenu';
 import LeftMenu from './LeftMenu';
 
 import Login from '../login/Login';
-import { MeContext } from '../../contexts';
+import { MeContext } from '../../contexts/meContext';
 
 const Layout: FC = ({ children }) => {
   const { me } = useContext(MeContext);

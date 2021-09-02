@@ -11,3 +11,4 @@
 
 - view profile - get profile (followers, followings, tweets, nickname, introduce)
 - fix ui, get my tweets
+- get image profile, back-image-duplicate-check, back-remove-image, image resize

@@ -1,9 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
+import { Link } from 'react-router-dom';
+
+import { MeContext } from '../../../contexts/meContext';
 import { useFollowing } from '../../../hooks/useFollow';
 
 import Follow from './Follow';
 
 const FollowingList: FC = () => {
+  const { me } = useContext(MeContext);
+
   const { data, error } = useFollowing();
 
   if (!data) return <div>loading...</div>;
@@ -17,9 +22,19 @@ const FollowingList: FC = () => {
           Not exist following list.
         </div>
       ) : (
-        data.map((v) => {
-          return <Follow follow={v.follower} />;
+        data.map((v, i) => {
+          if (i < 3) return <Follow key={v.id} follow={v.follower} />;
         })
+      )}
+      {data.length > 3 && (
+        <Link
+          className="flex justify-center items-center mt-2"
+          to={`/profile/${me}/followings`}
+        >
+          <button className="border-1 border-gray-500 rounded-full px-4 py-2 hover:text-green-500 hover:border-green-500">
+            More
+          </button>
+        </Link>
       )}
     </div>
   );
