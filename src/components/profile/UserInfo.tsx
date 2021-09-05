@@ -68,8 +68,6 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
         type: compressedImage.type,
       });
 
-      console.log(blobToFile);
-
       const formData = new FormData();
 
       formData.append('image', blobToFile);
