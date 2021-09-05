@@ -2,6 +2,7 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import { Link } from 'react-router-dom';
+import imageCompression from 'browser-image-compression';
 
 import ProfileIcon from '../common/ProfileIcon';
 import { IFollowList, IProfile } from '../../interfaces';
@@ -57,11 +58,21 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
   const onChangeProfileUpload = async (e: any) => {
     try {
       const imageFile = e.target.files[0];
-      const formData = new FormData();
-
       if (!imageFile) return;
 
-      formData.append('image', imageFile);
+      const compressedImage = await imageCompression(imageFile, {
+        maxWidthOrHeight: 100,
+      });
+
+      const blobToFile = new File([compressedImage], compressedImage.name, {
+        type: compressedImage.type,
+      });
+
+      console.log(blobToFile);
+
+      const formData = new FormData();
+
+      formData.append('image', blobToFile);
 
       const response = await axios.put(
         `${process.env.REACT_APP_BACK_URL}/users/profile/image`,
