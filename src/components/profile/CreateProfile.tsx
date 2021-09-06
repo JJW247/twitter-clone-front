@@ -36,7 +36,7 @@ const CreateProfile: FC<CreateProfileProps> = ({
       e.preventDefault();
 
       const response = await axios.put(
-        `${process.env.REACT_APP_BACK_URL}/users/introduce/${me}`,
+        `${process.env.REACT_APP_BACK_URL}/users/introduce`,
         {
           introduce,
         },
