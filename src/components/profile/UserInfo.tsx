@@ -86,7 +86,7 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
         profileImageMutate();
         toastSuccess('Image upload success!');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
 
       toastError(error);

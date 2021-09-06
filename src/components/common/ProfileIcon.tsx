@@ -17,7 +17,7 @@ const ProfileIcon: FC<ProfileIconProps> = ({ userId }) => {
         <div className="rounded-full h-12 w-12 flex items-center justify-center">
           <img
             className="object-cover rounded-full h-12 w-12 flex"
-            src={`${process.env.REACT_APP_AWS_S3}/profiles/${data.profiles[0].filename}`}
+            src={`${process.env.REACT_APP_AWS_S3}/profiles-jjw247/${data.profiles[0].filename}`}
           />
         </div>
       ) : (
