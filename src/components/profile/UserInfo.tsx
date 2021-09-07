@@ -46,8 +46,9 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
         followerMutate();
         if (followingMutate) followingMutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      toastError(error.response.data.message);
     }
   };
 
@@ -88,8 +89,7 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
       }
     } catch (error: any) {
       console.error(error);
-
-      toastError(error);
+      toastError(error.response.data.message);
     }
   };
 
@@ -102,8 +102,9 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
       });
 
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      toastError(error.response.data.message);
     }
   };
 
@@ -117,8 +118,9 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
       const response = await axios.get(url);
 
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      toastError(error.response.data.message);
     }
   };
 
@@ -199,11 +201,12 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
         <CreateProfile
           profileMutate={profileMutate}
           setIntroduceToggle={setIntroduceToggle}
+          initIntroduce={profileData ? profileData.introduce : ''}
         />
       ) : profileData?.introduce ? (
         <div className="mx-4 mb-4">
           {profileData.introduce}
-          {me === +userId && (
+          {me === +profileData.id && (
             <button
               className="rounded-full px-2 py-1 font-black text-white text-xs  bg-black ml-4 mb-2"
               onClick={onClickFix}

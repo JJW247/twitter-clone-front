@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 
-import RightMenu from './right/RightMenu';
+import RightMenu from './follow/RightMenu';
 import LeftMenu from './LeftMenu';
 
 import Login from '../login/Login';
@@ -13,11 +13,15 @@ const Layout: FC = ({ children }) => {
 
   return (
     <div className="min-h-screen flex font-noto">
-      <LeftMenu />
+      <div className="hidden md:block">
+        <LeftMenu />
+      </div>
       <div className="max-w-screen-sm flex-auto border-l-1 border-r-1">
         {children}
       </div>
-      <RightMenu />
+      <div className="hidden md:block">
+        <RightMenu />
+      </div>
     </div>
   );
 };

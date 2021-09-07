@@ -11,6 +11,7 @@ import { MeContext } from '../../contexts/meContext';
 
 import { useInput } from '../../hooks';
 import { IProfile } from '../../interfaces';
+import { toastError } from '../../utils';
 
 interface CreateProfileProps {
   profileMutate: (
@@ -19,17 +20,19 @@ interface CreateProfileProps {
   ) => Promise<IProfile | undefined>;
 
   setIntroduceToggle?: Dispatch<SetStateAction<boolean>>;
+  initIntroduce?: string;
 }
 
 const CreateProfile: FC<CreateProfileProps> = ({
   profileMutate,
   setIntroduceToggle,
+  initIntroduce,
 }) => {
   const token = localStorage.getItem('token');
 
   const { me } = useContext(MeContext);
 
-  const [introduce, onChangeIntroduce] = useInput('');
+  const [introduce, onChangeIntroduce, setIntroduce] = useInput(initIntroduce);
 
   const onSubmitIntroduce = async (e: FormEvent<HTMLFormElement>) => {
     try {
@@ -50,11 +53,13 @@ const CreateProfile: FC<CreateProfileProps> = ({
       if (response.statusText === 'OK') {
         if (setIntroduceToggle) {
           setIntroduceToggle(false);
+          setIntroduce(introduce);
         }
         profileMutate();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      toastError(error.response.data.message);
     }
   };
 
