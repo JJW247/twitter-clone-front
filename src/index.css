@@ -4,27 +4,76 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 
+.debug-screens::before {
+  position: fixed;
+  z-index: 2147483647;
+  top: 0;
+  left: 0;
+  padding: 0.3333333em 0.5em;
+  font-size: 12px;
+  line-height: 1;
+  font-family: sans-serif;
+  background-color: #000;
+  color: #fff;
+  box-shadow: 0 0 0 1px #fff;
+  content: 'screen: _';
+}
+@screen sm {
+  .debug-screens::before {
+    content: 'screen: sm';
+  }
+}
+@screen md {
+  .debug-screens::before {
+    content: 'screen: md';
+  }
+}
+@screen lg {
+  .debug-screens::before {
+    content: 'screen: lg';
+  }
+}
+@screen xl {
+  .debug-screens::before {
+    content: 'screen: xl';
+  }
+}
+@screen 2xl {
+  .debug-screens::before {
+    content: 'screen: 2xl';
+  }
+}
+@screen xs {
+  .debug-screens::before {
+    content: 'screen: xs';
+  }
+}
+
+@layer base {
+  .border-1 {
+    border-width: 1px;
+  }
+}
+
+.input {
+  @apply border-1 border-gray-500 rounded-full px-4 py-2;
+  @apply focus:outline-none focus:border-green-500;
+}
+
 ::-moz-selection {
   --tw-border-opacity: 1;
   background-color: rgba(16, 185, 129, var(--tw-border-opacity));
   color: #fff;
 }
+
 ::selection {
   --tw-border-opacity: 1;
   background-color: rgba(16, 185, 129, var(--tw-border-opacity));
   color: #fff;
 }
 
-.input {
-  @apply border-1 border-gray-500 rounded-full px-4 py-2 focus:outline-none focus:border-green-500;
-}
-
 .notosans-kr * {
   font-family: 'Noto Sans KR', sans-serif;
-}
-
-.border-1 {
-  border-width: 1px;
 }
 
 .border-t-1 {

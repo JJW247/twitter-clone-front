@@ -14,7 +14,8 @@ import Ellipsis, { EllipsisProps } from './Ellipsis';
 import Like from './Like';
 import CommentsButton from './CommentsButton';
 import CommentForm from './CommentForm';
-import Comment from './Comment';
+import CommentList from './CommentList';
+import useCustomSWR from '../../../hooks/useCustomSWR';
 
 export interface CardProps extends EllipsisProps {
   commentsEl: MutableRefObject<HTMLDivElement | null>;
@@ -54,14 +55,12 @@ const Card: FC<CardProps> = ({ tweet, mutate, ellipsisEl, commentsEl }) => {
     }
   };
 
-  const { data, mutate: commentsMutate } = useSWR<IComment[]>(
+  const { mutate: commentsMutate } = useCustomSWR<IComment[]>(
     `${process.env.REACT_APP_BACK_URL}/comments/tweets/${tweet.id}`,
-    fetcher,
   );
   const { data: commentsCountData, mutate: commentsCountMutate } =
-    useSWR<number>(
+    useCustomSWR<number>(
       `${process.env.REACT_APP_BACK_URL}/comments/count/tweets/${tweet.id}`,
-      commentsCountFetcher,
     );
 
   useEffect(() => {
@@ -105,13 +104,7 @@ const Card: FC<CardProps> = ({ tweet, mutate, ellipsisEl, commentsEl }) => {
               commentsMutate={commentsMutate}
               commentsCountMutate={commentsCountMutate}
             />
-            {data && (
-              <ul>
-                {data.map((v) => {
-                  return <Comment key={v.id} comment={v} />;
-                })}
-              </ul>
-            )}
+            <CommentList tweet={tweet} />
           </div>
         )}
       </div>

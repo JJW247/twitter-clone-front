@@ -9,9 +9,9 @@ export const useGetProfileImage = (userId: number) => {
       const response = await axios.get(url);
 
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      toastError(error);
+      toastError(error.response.data.message);
     }
   };
 

@@ -15,11 +15,11 @@ const MenuButton: FC<MenuButtonProps> = ({ title, icon, link }) => {
 
   return (
     <Link
-      className="flex items-center px-6 py-3 rounded-full hover:bg-gray-200 my-2"
+      className="flex items-center md:px-6 py-3 rounded-full hover:bg-gray-200 my-2"
       to={link === '/profile' ? link + '/' + me : link}
     >
-      <FontAwesomeIcon className="text-2xl" icon={icon} />
-      <span className="ml-4 text-xl">{title}</span>
+      <FontAwesomeIcon className="md:text-2xl" icon={icon} />
+      <span className="ml-4 md:text-xl">{title}</span>
     </Link>
   );
 };
