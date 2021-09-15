@@ -1,32 +1,39 @@
-import React, { FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { MeContext } from '../../../contexts/meContext';
-import { useFollowing } from '../../../hooks/useFollow';
+import { useCustomSWR } from '../../../hooks';
+import { IFollowing } from '../../../interfaces';
 
-import Follow from './Follow';
+import FollowCard from './FollowCard';
 
 const FollowingList: FC = () => {
   const { me } = useContext(MeContext);
 
-  const { data, error } = useFollowing();
+  const { data: followingListData, error } = useCustomSWR<IFollowing[]>(
+    `${process.env.REACT_APP_BACK_URL}/users/followings/${me}`,
+    null,
+  );
 
-  if (!data) return <div>loading...</div>;
+  if (!followingListData) return <div>loading...</div>;
   if (error) return <div>error</div>;
 
   return (
     <div className="bg-gray-100 w-80 py-4 rounded-2xl">
       <div className="font-bold text-xl mb-8 pl-4">Following list</div>
-      {data.length === 0 ? (
+      {followingListData.length === 0 ? (
         <div className="flex justify-center pb-4">
           Not exist following list.
         </div>
       ) : (
-        data.map((v, i) => {
-          if (i < 3) return <Follow key={v.id} follow={v.follower} />;
+        followingListData.map((following, index) => {
+          if (index < 3)
+            return (
+              <FollowCard key={following.id} follow={following.follower} />
+            );
         })
       )}
-      {data.length > 3 && (
+      {followingListData.length > 3 && (
         <Link
           className="flex justify-center items-center mt-2"
           to={`/profile/${me}/followings`}

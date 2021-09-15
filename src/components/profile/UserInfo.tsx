@@ -1,23 +1,22 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import { Link } from 'react-router-dom';
 import imageCompression from 'browser-image-compression';
 
 import ProfileIcon from '../common/ProfileIcon';
-import { IFollowList, IProfile } from '../../interfaces';
+import { IFollower, IFollowing, IFollowList, IProfile } from '../../interfaces';
 import CreateProfile from './CreateProfile';
 import { MeContext } from '../../contexts/meContext';
-import { useFollower } from '../../hooks/useFollow';
 import { toastError, toastSuccess } from '../../utils';
 import { useGetProfileImage } from '../../hooks/useGetProfileImage';
+import { useCustomSWR } from '../../hooks';
 
 interface UserInfoProps {
   userId: string;
-  followingMutate?: any;
 }
 
-const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
+const UserInfo: FC<UserInfoProps> = ({ userId }) => {
   const token = localStorage.getItem('token');
 
   const { me } = useContext(MeContext);
@@ -25,9 +24,20 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
   const [follow, setFollow] = useState<'Follow' | 'Unfollow'>('Follow');
   const [introduceToggle, setIntroduceToggle] = useState<boolean>(false);
 
-  const { mutate: followerMutate } = useFollower();
+  const { mutate: followerMutate } = useCustomSWR<IFollower[]>(
+    `${process.env.REACT_APP_BACK_URL}/users/followers/${me}`,
+    null,
+  );
+  const { mutate: followingMutate } = useCustomSWR<IFollowing[]>(
+    `${process.env.REACT_APP_BACK_URL}/users/followings/${me}`,
+    null,
+  );
 
   const { mutate: profileImageMutate } = useGetProfileImage(+userId);
+
+  const { data: followListData, mutate: followListMutate } = useCustomSWR<
+    IFollowList[]
+  >(`${process.env.REACT_APP_BACK_URL}/users/follow`, token);
 
   const onClickFollow = async () => {
     try {
@@ -42,9 +52,11 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
       );
 
       if (response.statusText === 'Created') {
-        mutate();
+        followListMutate();
         followerMutate();
-        if (followingMutate) followingMutate();
+        if (followingMutate) {
+          followingMutate();
+        }
       }
     } catch (error: any) {
       console.error(error);
@@ -93,44 +105,13 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
     }
   };
 
-  const fetcher = async (url: string) => {
-    try {
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      return response.data;
-    } catch (error: any) {
-      console.error(error);
-      toastError(error.response.data.message);
-    }
-  };
-
-  const { data, mutate } = useSWR<IFollowList[]>(
-    `${process.env.REACT_APP_BACK_URL}/users/follow`,
-    fetcher,
-  );
-
-  const profileFetcher = async (url: string) => {
-    try {
-      const response = await axios.get(url);
-
-      return response.data;
-    } catch (error: any) {
-      console.error(error);
-      toastError(error.response.data.message);
-    }
-  };
-
-  const { data: profileData, mutate: profileMutate } = useSWR<IProfile>(
+  const { data: profileData, mutate: profileMutate } = useCustomSWR<IProfile>(
     `${process.env.REACT_APP_BACK_URL}/users/profile/${userId}`,
-    profileFetcher,
+    null,
   );
 
   useEffect(() => {
-    const isFollow = data?.filter((follow) => {
+    const isFollow = followListData?.filter((follow) => {
       return follow.following.id === +userId;
     });
 
@@ -141,7 +122,7 @@ const UserInfo: FC<UserInfoProps> = ({ userId, followingMutate }) => {
       setFollow('Follow');
       profileMutate();
     }
-  }, [data]);
+  });
 
   return (
     <div className="border-b-1">

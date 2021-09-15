@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { IFollow } from '../../../interfaces';
@@ -8,7 +8,7 @@ interface FollowProps {
   follow: IFollow;
 }
 
-const Follow: FC<FollowProps> = ({ follow }) => {
+const FollowCard: FC<FollowProps> = ({ follow }) => {
   return (
     <div className="flex px-4 py-2 hover:bg-gray-300">
       <ProfileIcon userId={follow.id} />
@@ -31,4 +31,4 @@ const Follow: FC<FollowProps> = ({ follow }) => {
   );
 };
 
-export default Follow;
+export default FollowCard;

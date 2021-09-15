@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
@@ -6,10 +6,11 @@ import 'dayjs/locale/ko';
 import { IComment, ITweet } from '../../../interfaces';
 import { MeContext } from '../../../contexts/meContext';
 import { toastError, toastSuccess } from '../../../utils';
-import useCustomSWR from '../../../hooks/useCustomSWR';
+
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt as farTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { useCustomSWR } from '../../../hooks';
 
 interface CommentProps {
   comment: IComment;
@@ -23,10 +24,12 @@ const Comment: FC<CommentProps> = ({ comment, tweet }) => {
 
   const { mutate: commentMutate } = useCustomSWR(
     `${process.env.REACT_APP_BACK_URL}/comments/tweets/${tweet.id}`,
+    null,
   );
 
   const { mutate: countMutate } = useCustomSWR(
     `${process.env.REACT_APP_BACK_URL}/comments/count/tweets/${tweet.id}`,
+    null,
   );
 
   const onClickDeleteComment = async () => {

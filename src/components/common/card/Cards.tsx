@@ -1,4 +1,4 @@
-import React, { createRef, FC, MutableRefObject, useRef } from 'react';
+import { createRef, FC, MutableRefObject, useRef } from 'react';
 
 import { ITweet } from '../../../interfaces';
 import { CreateTweetProps } from '../../main/CreateTweet';
